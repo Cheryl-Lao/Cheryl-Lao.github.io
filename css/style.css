@@ -505,7 +505,7 @@ p {
 
 /*----------------------------------------- 6) Hero --------------------------------------------------*/
 #home {
-  background: url('../images/hero1.jpg');
+  background: url('https://media.giphy.com/media/2tNvsKkc0qFdNhJmKk/giphy.gif');
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
