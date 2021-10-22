@@ -1184,24 +1184,24 @@ ul.portfolio-image li .desc{
   transform: translateY(100%);
 }
 
-.facebook{
-  background: #969696;
+.medium{
+  background: #3cb371;
   /*padding: 20px 0;*/
 }
-.facebook a:after{
-  background-color: #527bbb;
+.medium a:after{
+  background-color: #9affc7;
 }
-.twitter{
-  background: #ABABAB;
+.linkedin{
+  background: #0072b1;
 }
-.twitter a:after{
-  background-color: #77ccf1;
+.linkedin a:after{
+  background-color: #59b5e7;
 }
-.gplus{
-  background: #d8d8d8;
+.mail{
+  background: #1DA1F2;
 }
-.gplus a:after{
-  background: #dd4b39;
+.mail a:after{
+  background: #7eceff;
 }
 
 .footer-bottom{
