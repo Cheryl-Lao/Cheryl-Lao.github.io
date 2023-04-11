@@ -22,6 +22,7 @@
         <!--[if lt IE 9]>
         <script type="text/javascript" src="js/html5shiv.min.js"></script>
         <![endif]-->
+        <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     </head>
     <body>
         <!--PRELOADER-->
@@ -55,6 +56,9 @@
 						<a data-scroll="" href="#experience">
                         <span>Work Experience</span>
                         </a>
+                        <a data-scroll="" href="#publications">
+                            <span>Publications</span>
+                            </a>
                         <a data-scroll="" href="#projects">
                         <span>Projects</span>
                         </a>
@@ -115,9 +119,24 @@
                                 <div class="col-md-12">
                                     <div class="wrap-about">
                                         <div class="w-content">
+
+                                            <script>
+                                                /* 1. define variables */
+                                                var me = "cheryl.lao";
+                                                var place = "outlook.com";
+                                                
+                                                /* 2. find email link to replace */
+                                                var elink = document.getElementById("mlink");
+                                                
+                                                /* 3. replace link href with variables  */
+                                                elink.href = `mailto:${me}@${place}`;
+                                            </script>
+                                                
+                              
+
 										<p class="head-about">
                                                 Hi there! I'm a master's student at the University of Waterloo with a passion for computer science and visual arts. Whether it's quickly finishing a demo at a hackathon, tinkering in Unity, or throwing something on the pottery wheel, I love building things!
-                                                Check out my <a href = "https://www.siggraph.org/member-profile/cheryl-lao/">SIGGRAPH member profile</a> for some fun facts about me too!
+                                                Check out my <a href = "https://www.siggraph.org/inside-siggraph/member-profiles/profile/?member=cheryl-lao">SIGGRAPH member profile</a> for some fun facts about me too!
                                         </p>
 
                                         </div>
@@ -132,9 +151,9 @@
                                                         <tr>
                                                             <td class="title">Email </td>
                                                             <td class="break">:</td>
-															<!-- abc@def -->
-															<!-- @abc.com -->
-                                                            <td>cheryl.lao<!-- abc@def --><!-- @abc.com -->@outlook.com</a></td>
+															<!-- abc@outlook.com -->
+															<!-- abc@gmail.com -->
+                                                            <td><a id="mlink" href = "#" >cheryl.lao<!-- abc@def --><!-- @gmail.com -->@outlook.com</a></td>
                                                         </tr>
                                                         <tr>
                                                             <td class="title">LinkedIn </td>
@@ -213,7 +232,7 @@
                                                             <p>
                                                             <ul>
                                                                 <li>Thesis-based master’s program co-supervised by Prof. Daniel Vogel & Prof. Craig Kaplan</li>
-                                                                <li>Currently researching virtual reality (VR) and spatial augmented reality (SAR) interfaces as well as Typographical Layout</li>
+                                                                <li>Currently research: virtual reality (VR) and spatial augmented reality (SAR) guidance cues</li>
 																<li>GPA: 4.0/4.0 | 95.5%</li>
 																<li><a href = "https://cs.uwaterloo.ca/news/cheryl-lao-receives-2022-adobe-research-women-in-technology-scholarship">2022 Adobe Women in Technology Scholarship</a> Recipient</li>
                                                             </ul>
@@ -325,30 +344,7 @@
                                             </div>
                                         </li>
 									    <li>
-                                            <div class="col-md-6 col-sm-6">
-                                                <div class="wrap-card">
-                                                    <div class="card">
-                                                        <h2 class="year">
-                                                            Research Intern
-                                                        </h2>
-                                                        <p class="job">
-                                                            Roblox
-                                                        </p>
-                                                        <p class="company">
-                                                            May 2022 - August 2022
-                                                        </p>
-                                                        <hr>
-                                                        <div class="text-detail">
-                                                            <p>
-                                                            <ul>
-                                                                <li>Conducted HCI research on typographical layouts in the Graphics Intelligence and Learning Lab</li>
-                                                            </ul>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                
 
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="wrap-card">
@@ -375,6 +371,37 @@
                                                 </div>
                                             </div>
                                         </li>
+                                        <li>
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="wrap-card">
+                                                    <div class="card">
+                                                        <h2 class="year">
+                                                            Research Assistant
+                                                        </h2>
+                                                        <p class="job">
+                                                            University of Toronto
+                                                        </p>
+                                                        <p class="company">
+                                                            July 2020 - August 2020
+                                                        </p>
+                                                        <hr>
+                                                        <div class="text-detail">
+                                                            <p>
+                                                            <ul>
+                                                                <li>Additional work on my undergrad research project to prepare for conference submission (published in ACM SUI 2021)</li>
+                                                                <li>Co-authors: Haijun Xia, Daniel Wigdor, and Fanny Chevalier</li>
+                                                                <li>Reviewed existing research on virtual reality (VR) authoring tools</li>
+                                                                <li>Designed a novel tool for visualization in virtual reality design space exploration</li>
+                                                                <li>Developed the VR prototype in Unity 3D (C#) for Oculus Rift</li>
+                                                                <li>Designed and conducted remote user studies with design experts to evaluate the tool</li>
+                                                            </ul>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+
                                         <li>
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="wrap-card">
@@ -494,16 +521,17 @@
                     </div>
                 </section>
                 <!--/.EMPLOYMENT END-->
-				<!--PROJECTS-->
-                <section class="grey-bg" id="projects">
+
+                <!-- Publications-->
+                <section class="grey-bg" id="publications">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-3">
                                 <h3 class="title-small">
-                                    <span><a id="projects">Projects</a></span>
+                                    <span><a id="publications">Publications</a></span>
                                 </h3>
                                 <p class="content-detail">
-                                    A few of my projects. Please refer to <a href="https://https://github.com/Cheryl-Lao">GitHub</a> for the source code and more projects.
+                                    <a href="https://scholar.google.com/citations?hl=en&user=-l3l2rYAAAAJ">Google Scholar Profile</a> 
                                 </p>
                             </div>
                             <div class="col-md-9 content-right">
@@ -514,38 +542,85 @@
                                                 <div class="wrap-card">
                                                     <div class="card">
                                                         <h2 class="year">
-                                                            Design Space Exploration in VR
+                                                            A Preliminary Study of World Customizability for Virtual Reality Co-Play
                                                         </h2>
                                                         <p class="job">
-                                                            Research Project
-                                                        </p>
-                                                        <p class="job">
-                                                            ACCEPTED to ACM SUI 2021
+                                                            <a href="https://chi2023.acm.org/">ACM CHI 2023</a>
                                                         </p>
                                                         <p class="company">
-                                                            Unity3D
+                                                            <a href="https://doi.org/10.1145/3544549.3585605">DOI</a>
                                                         </p>
-														<p class="company">
-                                                            C#
-                                                        </p>
-														<iframe width="320" height="180" src="https://www.youtube.com/embed/6As1jrY6KVw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+														<iframe width="320" height="180" src="https://www.youtube.com/embed/g-xpEe98qVQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                                         <hr>
                                                         <div class="text-detail">
                                                             <p>
                                                             <ul>
-                                                                <li>Supervisors: Daniel Wigdor, Fanny Chevalier, and Haijun Xia</li>
-                                                                <li>Reviewed existing research on virtual reality (VR) authoring tools</li>
-                                                                <li>Designed a novel tool for visualization in virtual reality design space exploration</li>
-                                                                <li>Developed the VR prototype in Unity 3D (C#) for Oculus Rift</li>
-                                                                <li>Designed and conducted remote user studies with design experts to evaluate the tool</li>
-                                                                <li><a href="https://dl.acm.org/doi/abs/10.1145/3485279.3485290">ACM Digital Library entry</a></li>
+                                                                <li>Co-authors: Yanting (Caitlyn) Zhang, Daniel Vogel, Craig S. Kaplan, Morgan McGuire, and Victor Zordan</li>
+                                                                <li>An exploration on how customizability affects creativity in multiplayer VR settings</li>
                                                             </ul>
                                                             </p>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </li>
+
+                                        <li>
+                                            <div class="col-md-6 col-sm-6">
+                                                <div class="wrap-card">
+                                                    <div class="card">
+                                                        <h2 class="year">
+                                                            Attribute Spaces: Supporting Design Space Exploration in Virtual Reality
+                                                        </h2>
+                                                        <p class="job">
+                                                            <a href="https://sui.acm.org/2021/">ACM SUI 2021</a>
+                                                        </p>
+                                                        <p class="company">
+                                                            <a href="https://dl.acm.org/doi/abs/10.1145/3485279.3485290">DOI</a>
+                                                        </p>
+
+														<iframe width="320" height="180" src="https://www.youtube.com/embed/JymUsc6ptUQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                        <hr>
+                                                        <div class="text-detail">
+                                                            <p>
+                                                                <ul>
+                                                                    <li>Co-authors: Haijun Xia, Daniel Vogel, Fanny Chevalier</li>
+                                                                    <li>A VR tool for visualizing and manipulating attributes for objects in a scene.  </li>
+                                                                </ul>
+                                                            </p>
+                                                            
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+										
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+				<!--PROJECTS-->
+                <section class="grey-bg" id="projects">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h3 class="title-small">
+                                    <span><a id="projects">Projects</a></span>
+                                </h3>
+                                <p class="content-detail">
+                                    Please refer to <a href="https://https://github.com/Cheryl-Lao">GitHub</a> for the source code and more projects.
+                                </p>
+                            </div>
+                            <div class="col-md-9 content-right">
+                                <div class="row">
+                                    <ul class="listing-item">
                                         <li>
                                             <div class="col-md-6 col-sm-6">
                                                 <div class="wrap-card">
@@ -724,7 +799,7 @@
                                     <span>Creative Work</span>
                                 </h3>
                                 <p class="content-detail">
-                                    Here are just a few of the various graphic design/ceramics/photography pieces that I've done recently!
+                                    I love bird photography, ceramics, and crafts in general!
                                 </p>
                             </div>
                             <div class="col-md-9 content-right">
@@ -735,7 +810,7 @@
                                             <img alt="image" src="images/chickadeeWings.png">
                                             <div class="decription-wrap">
                                                 <div class="image-bg">
-                                                    <p class="desc">Chickadee Macro Action Shot</p>
+                                                    <p class="desc">Chickadee Macro Shot</p>
                                                 </div>
                                             </div>
                                         </a>
@@ -761,18 +836,6 @@
                                         </a>
                                     </li>
                                     <li class="col-md-6">
-                                        <a href="images/bw-2.png">
-                                            <img alt="image" src="images/bw-2.png">
-                                            <div class="decription-wrap">
-                                                <div class="image-bg">
-                                                    <p class="desc">
-                                                        30th Anniversary School Yearbook Cover Design
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="col-md-6">
                                         <a href="images/bw-3.png">
                                             <img alt="image" src="images/bw-3.png">
                                             <div class="decription-wrap">
@@ -791,18 +854,6 @@
                                                 <div class="image-bg">
                                                     <p class="desc">
                                                         Pottery Wheel Work
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="col-md-6">
-                                        <a href="images/bw-5.png">
-                                            <img alt="image" src="images/bw-5.png">
-                                            <div class="decription-wrap">
-                                                <div class="image-bg">
-                                                    <p class="desc">
-                                                        UTFOLD Poster Design
                                                     </p>
                                                 </div>
                                             </div>
@@ -847,7 +898,7 @@
                                                 <div class="wrap-card">
                                                     <div class="card">
                                                         <h2 class="year">
-                                                            Executive member
+                                                            Vice Chair
                                                         </h2>
                                                         <p class="job">
                                                             Toronto SIGGRAPH Chapter
@@ -860,6 +911,7 @@
                                                         <div class="text-detail">
                                                             <p>
                                                             <ul>
+                                                                <li>Executive member from 2018 to 2021</li>
 															    <li>Collaborated with other executives to organize computer graphics events for the CG community in Toronto</li>
                                                                 <li>Organized and hosted a panel on immersive technologies featuring Ian Hall, Dave Cardwell, and Michael Nebeling with over 3000 views so far</li>
                                                             </ul>
@@ -1173,8 +1225,7 @@
                                                     Software Development
                                                 </p>
                                                 <p class="text-grey">
-                                                    The languages/technologies that I use most often changes with the project that I'm working on and it's fun to pick up new skills! Check out my projects on <a href="https://github.com/Cheryl-Lao">github.com/Cheryl-Lao</a>.
-                                                    Right now I'm working a lot in C# for VR development and JavaScript/TypeScript for another research project, but I'm still very familiar with Python.
+                                                    The languages/technologies that I use most often change with the project that I'm working on and it's fun to pick up new skills! Check out my projects on <a href="https://github.com/Cheryl-Lao">github.com/Cheryl-Lao</a>.
                                                 </p>
                                             </div>
                                         </li>
@@ -1239,7 +1290,7 @@
                                                     Arts Education Programming
                                                 </p>
                                                 <p class="text-grey">
-                                                    I designed the first YMCA of Greater Toronto Pottery camp curriculum and I also held several art-related workshops as president of Art Club in high school. I've been Family Day intern at the Gardiner Museum of Ceramic Art for 3 years and Visitor Services Chair in 2017.
+                                                    I designed the first YMCA of Greater Toronto Pottery camp curriculum and I also held several art-related workshops as president of Art Club in high school. I was a Family Day intern at the Gardiner Museum of Ceramic Art for 3 years and Visitor Services Chair in 2017.
                                                 </p>
                                             </div>
                                         </li>
@@ -1255,10 +1306,10 @@
                     <div class="footer-top">
                         <ul class="socials">
                             <li class="medium">
-                                <a href="https://medium.com/take-a-bite-of-bits-and-bytes" data-hover="Medium Blog">Medium Blog</a>
+                                <a href="https://medium.com/take-a-bite-of-bits-and-bytes" data-hover="Unfortunately a litle old now">Medium Blog</a>
                             </li>
                             <li class="mail">
-                                <a href="mailto:cheryl.lao@outlook.com" data-hover="cheryl.lao@outlook.com">Email me!</a>
+                                <a id="mlink" href = "#" data-hover="cheryl.lao[at]outlook.com">Email Me!</a>
                             </li>
                             <li class="linkedin">
                                 <a href="https://ca.linkedin.com/in/cheryllao" data-hover="linkedin.com/in/cheryllao">LinkedIn</a>
@@ -1283,5 +1334,16 @@
         <script src="js/smooth-scroll.min.js" type="text/javascript"></script>
         <script src="js/typed.js" type="text/javascript"></script>
         <script src="js/main.js" type="text/javascript"></script>
+        <script>
+            /* 1. define variables */
+            var me = "cheryl.lao";
+            var place = "outlook.com";
+            
+            /* 2. find email link to replace */
+            var elink = document.getElementById("mlink");
+            
+            /* 3. replace link href with variables  */
+            elink.href = `mailto:${me}@${place}`;
+        </script>
     </body>
 </html>
