@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<title>Links website</title>
+<style>
+
+body {
+    background-image: url("images/robloxbg.jpg"); /* The image used for background*/
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-position: center; /* Center the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.image-container {
+  text-align: center;
+  width: 100%;
+}
+
+.links-container {
+  display: flex;
+  flex-direction: column;
+  jusify-content: center;
+  align-items: center;
+}
+
+.link {
+  min-width: 50% !important;
+}
+
+@media (min-width: 1200px) .container {
+  max-width: 1140px;
+}
+@media (min-width: 992px) .container {
+  max-width: 960px;
+}
+@media (min-width: 768px) {
+.container {
+    max-width: 720px;
+  }
+
+.link {
+    width: 100%;
+  }
+}
+@media (min-width: 576px) {
+.container {
+    max-width: 540px;
+  }
+}
+
+.w3-purple, .w3-hover-purple:hover {
+color: #fff!important;
+background-color: rgba(0, 171, 43, 0.6) !important;
+}
+</style>
+  </head>
+
+
+  <body class="w3-white">
+    <!-- Content container -->
+    <div class="container">
+
+      <!-- Image and name container. Change to your picture here. -->
+    <div class="image-container">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/g-xpEe98qVQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+     <div class="w3-text-white">
+     <p class="w3-text-white w3-large"><strong>A Preliminary Study of World Customizability for Virtual Reality Co-Play</strong></p>
+     <p class="w3-large">More information and links below</p>
+      </div>
+
+    <!-- Links section 1. Replace the # inside of the "" with your links. -->
+    <div class="links-container">
+      <a href="https://doi.org/10.1145/3544549.3585605" class="w3-button w3-hover-pink w3-large w3-round w3-purple w3-border link" target="_blank"><i class="fab fa-facebook"> </i>Full Paper</a>
+      <br>
+      <a href="https://www.roblox.com/games/10728866724/VR-Co-Play-Condition-C " class="w3-button w3-hover-pink w3-large w3-round w3-purple w3-border link" target="_blank"><i class="fab fa-instagram"> </i>Roblox Scene - No Customizability</a>
+      <br>
+      <a href="https://www.roblox.com/games/10728861358/VR-Co-Play-Condition-B " class="w3-button w3-hover-pink w3-large w3-round w3-purple w3-border link" target="_blank"><i class="fab fa-twitter"> </i>Roblox Scene - Limited Customizability</a>
+      <br>
+      <a href="https://www.roblox.com/games/10405030915/VR-Co-Play-Condition-A" class="w3-button w3-hover-pink w3-large w3-round w3-purple w3-border link" target="_blank"><i class="fa fa-code"> </i>Roblox Scene - Broad Customizability</a>
+    </div>
+  </div>
+</div>
+</body>  
+</html>
