@@ -924,10 +924,8 @@ ul.portfolio-image li .desc{
   position: relative;
   padding: 0;
   margin: 0;
-  min-height: 660px;
-  min-width: 660px;
-  width: auto;
-  height: auto;
+  width: 100vw;
+  height: 100vw;
   float: left;
 }
 .wrap-about {
