@@ -2,22 +2,16 @@ import React from "react";
 
 const Intro = () => {
   const introContent = {
-    image: "assets/img/slider/1.jpg",
-    name: "Adriano Smith",
-    designation: "Web Developer",
+    image: "assets/img/slider/banner.jpg",
+    name: "Cheryl Lao",
+    designation: "Software Developer",
     text: (
       <>
         <p>
-          Hi, my name is Adriano Smith and I began using WordPress when it first
-          began. I’ve spent most of my waking hours for the last ten years
-          designing, programming and operating WordPress sites.
+        I love exploring how immersive technologies like VR can inspire and facilitate creativity. From publishing research on VR interactions during my master's to working on the engineering behind those experiences, I want to help build tools that enable novel interactions with immersive technologies. 
         </p>
         <p>
-          One of my specialties is taking an idea from scratch and creating a
-          full-fledged platform. I go beyond to produce sites with a unique,
-          outstanding, contemporary look-and-feel. With extensive knowledge of
-          web mechanics, I’m able to optimize complex integrations to require
-          little-to-no maintenance while running on their own for years.
+        Let's connect and chat about XR, HCI, or your latest craft idea! 😄
         </p>
       </>
     ),

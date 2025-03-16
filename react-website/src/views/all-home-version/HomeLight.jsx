@@ -8,11 +8,10 @@ import Portfolio from "../../components/PortfolioCreative";
 import News from "../../components/News";
 import ServiceMain from "../../components/service/ServiceMain";
 import Contact from "../../components/Contact";
-import CopyRight from "../../components/CopyRight";
 import PageTitle from "../../components/PageTitle";
 
 const HomeLight = () => {
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     document.body.classList.toggle("dark", isDarkMode);
@@ -25,7 +24,7 @@ const HomeLight = () => {
 
   return (
     <>
-      <PageTitle title="Home Regular" />
+      <PageTitle title="Home" />
       {/* End page title for seo */}
 
       <button className="theme-switcher-label" onClick={toggleDarkMode}>
@@ -68,12 +67,12 @@ const HomeLight = () => {
                       src="/assets/img/svg/avatar.svg"
                       alt="avatar"
                     />
-                    <span className="menu_content">About</span>
+                    <span className="menu_content">About Me</span>
                   </Tab>
                   <Tab>
                     <img
                       className="svg"
-                      src="/assets/img/svg/setting.svg"
+                      src="/assets/img/svg/graduation.svg"
                       alt="avatar"
                     />
                     <span className="menu_content">Service</span>
@@ -106,7 +105,7 @@ const HomeLight = () => {
               </div>
               {/* END MENU */}
 
-              <CopyRight />
+              {/*<CopyRight />*/}
               {/* END COPYRIGHT */}
             </div>
           </div>

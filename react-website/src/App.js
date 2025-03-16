@@ -4,6 +4,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import "photoswipe/dist/photoswipe.css";
 import { ToastContainer } from "react-toastify";
+import HomeLight from "./views/all-home-version/HomeLight";
 
 const App = () => {
   useEffect(() => {
@@ -11,7 +12,7 @@ const App = () => {
   }, []);
   return (
     <div className="tokyo_tm_all_wrap">
-      <AllRoutes />
+      <HomeLight />
       <ToastContainer />
     </div>
   );
