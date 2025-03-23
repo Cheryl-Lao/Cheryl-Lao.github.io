@@ -12,7 +12,7 @@ const App = () => {
   }, []);
   return (
     <div className="tokyo_tm_all_wrap">
-      <HomeLight />
+      <AllRoutes />
       <ToastContainer />
     </div>
   );

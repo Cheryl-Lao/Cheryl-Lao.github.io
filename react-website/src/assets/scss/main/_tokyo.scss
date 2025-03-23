@@ -263,6 +263,7 @@ h6 {
   z-index: 10;
   padding: 0px 100px;
   background-color: #fff;
+  
 }
 .tokyo_tm_all_wrap .leftpart_inner {
   width: 100%;
@@ -279,20 +280,53 @@ h6 {
 .tokyo_tm_all_wrap .leftpart .menu ul {
   margin: 0px;
   list-style-type: none;
+
 }
 .tokyo_tm_all_wrap .leftpart .menu ul li {
+  
   margin: 0px;
   width: 100%;
   float: left;
   text-decoration: none;
-  color: #767676;
+  color: currentColor;
+  /*color: #767676;*/
   display: inline-block;
   font-weight: 500;
   font-family: "Montserrat";
   transition: all 0.3s ease;
   cursor: pointer;
   margin-bottom: 10px;
+
+  .menu_tab {
+    display: flex;                    /* Enable Flexbox */
+    color: currentColor;
+    font-size: 20px;
+    text-align: center;                /* Center text horizontally */
+    text-decoration: none;
+    flex-direction: row;           /* Stack children vertically */
+    align-items: center;              /* Center children horizontally */
+    justify-content: left;          /* Center children vertically */
+    height: 100%;                      /* Make sure the container takes full height if needed */
+    
+    .menu_content {
+      color: inherit; /* Ensures it stays the same as the parent */
+      font-size: 20px;
+      text-align: center;
+    
+
+    }
+    .menu_content:hover {
+      color: #000;
+      letter-spacing: 2px;
+      cursor: pointer;
+    }
+
+    
+  }
+
+
   @media (max-width: 1200px) {
+    
     margin-bottom: 0;
   }
   .svg {
@@ -314,6 +348,7 @@ h6 {
   letter-spacing: 2px;
 }
 .tokyo_tm_all_wrap .leftpart .menu ul li.react-tabs__tab--selected {
+  
   color: #000;
   letter-spacing: 2px;
 }
@@ -1566,10 +1601,36 @@ body.modal {
 
 @media (max-width: 1600px) {
   .tokyo_tm_all_wrap .leftpart {
-    width: 400px;
+    background-color: #fff;
+    width: 320px;
+
+    ul {
+      text-decoration: none;
+      min-height: 6% !important;
+      box-sizing: border-box !important;
+
+      li {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        box-sizing: border-box;
+    
+        .svg {
+          display: block;
+        }
+        &:not(:last-child) {
+          margin-right: 0;
+        }
+        
+
+        
+
+      }
+    }
+
   }
   .tokyo_tm_section {
-    padding-left: 400px;
+    padding-left: 320px;
   }
 }
 @media (max-width: 1200px) {
@@ -1611,39 +1672,63 @@ body.modal {
     display: none;
   }
   .tokyo_tm_all_wrap .leftpart .leftpart_inner .menu {
-    padding: 0;
     width: auto;
     float: none;
-  }
-  .tokyo_tm_all_wrap .leftpart .leftpart_inner .menu ul {
-    display: flex;
-    align-items: center;
-    position: fixed;
-    width: 100%;
-    background: #dedede;
-    height: 50px;
-    bottom: 0;
-    left: 0;
-  }
-  .tokyo_tm_all_wrap .leftpart .leftpart_inner .menu ul li {
-    display: flex;
-    margin-bottom: 10px;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 !important;
-    .svg {
-      display: block;
+
+    ul {
+      display: flex;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      background: #dedede;
+      height: 50px;
+      bottom: 0;
+      left: 0;
+      color: inherit;
+      text-decoration: none !important;
+      min-height: 6% !important;
+      box-sizing: border-box !important;
+
+      li {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-sizing: border-box;
+    
+        .svg {
+          display: block;
+        }
+        &:not(:last-child) {
+          margin-right: 0;
+        }
+        
+        .menu_tab {
+          display: flex;                    /* Enable Flexbox */
+          color: currentColor;
+          font-size: 18px;
+          text-align: center;                /* Center text horizontally */
+          text-decoration: none;
+          flex-direction: column;           /* Stack children vertically */
+          align-items: center;              /* Center children horizontally */
+          justify-content: center;          /* Center children vertically */
+          height: 100%;                      /* Make sure the container takes full height if needed */
+          
+          .menu_content {
+            color: inherit; /* Ensures it stays the same as the parent */
+            font-size: 18px;
+            text-align: center;
+            text-decoration: none; 
+          }
+        }
+      }
     }
-    &:not(:last-child) {
-      margin-right: 0;
-    }
-    .menu_content {
-      font-size: 12px;
-      display: inline-block;
-      margin-top: 5px;
-      line-height: 1;
-    }
   }
+  /* Prevent text color from changing when clicked */
+  .menu ul li {
+    color: inherit;
+    text-decoration: none !important;
+  }
+
   .tokyo_tm_all_wrap .rightpart {
     padding-left: 0px;
   }
