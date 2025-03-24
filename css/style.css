@@ -916,17 +916,22 @@ ul.portfolio-image li .desc{
 }
 .bg-about {
   background: url('../images/reza.jpg');
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;
   padding: 0;
   margin: 0;
-  width: 100vw;
-  height: 100vw;
+  width: 50vw; /* Half of the viewport width */
+  height: 100vh; /* Full height of the screen */
   float: left;
+}
+
+@media (max-width: 1000px) {
+  .bg-about{
+    width: 100vw; /* Take up full width */
+    height: 50vh; /* Adjust height for better stacking */
+    float: none;
+  }
 }
 .wrap-about {
   height: 100%;
