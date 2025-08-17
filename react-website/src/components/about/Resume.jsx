@@ -9,9 +9,9 @@ const Resume = () => {
       resume: [
         {
           id: 1,
-          year: "2014 - 2016",
-          institute: "Oxford University",
-          degree: "Master Degree",
+          year: "2015 - 2020",
+          institute: "University of Toronto",
+          degree: "Bachelor's of Science in Computer Science",
         },
         {
           id: 2,

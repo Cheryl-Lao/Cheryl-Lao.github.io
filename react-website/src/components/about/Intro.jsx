@@ -11,7 +11,7 @@ const Intro = () => {
         I love exploring how immersive technologies like VR can inspire and facilitate creativity. From publishing research on VR interactions during my master's to working on the engineering behind those experiences, I want to help build tools that enable novel interactions with immersive technologies. 
         </p>
         <p>
-        Let's connect and chat about XR, HCI, or your latest craft idea! 😄
+        Let's connect and chat about XR, HCI, or your latest craft idea! I'm getting into 3D printing right now! 😄
         </p>
       </>
     ),

@@ -19,7 +19,7 @@ const Home = () => {
           <div className="details">
             <h3 className="name">Cheryl Lao</h3>
             <p className="job">
-            I’m a software developer passionate about exploring how XR technologies inspire creativity, from engineering immersive experiences to building tools for novel interactions
+            Hi there!👋 I’m a software developer passionate about exploring how XR technologies inspire creativity, from engineering immersive experiences to building tools for novel interactions
             </p>
             <p className="job">
             Feel free to explore this portfolio site or click on one of the quick links below! 😄

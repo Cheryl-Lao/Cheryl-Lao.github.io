@@ -3,20 +3,20 @@ import React from "react";
 const SocialShare = [
   {
     iconName: "mail",
-    link: "https://twitter.com/",
+    link: "mailto:cheryl.lao@outlook.com",
   },
-  { iconName: "paper", link: "https://twitter.com/" },
+  { iconName: "paper", link: `assets/documents/Cheryl_Lao_SWE_Resume.pdf` },
   {
     iconName: "linkedin",
-    link: "https://www.instagram.com/",
+    link: "https://www.linkedin.com/in/cheryllao/",
   },
   {
     iconName: "github",
-    link: "https://www.instagram.com/",
+    link: "https://github.com/Cheryl-Lao",
   },
   {
     iconName: "google-scholar",
-    link: "https://www.instagram.com/",
+    link: "https://scholar.google.ca/citations?user=-l3l2rYAAAAJ&hl=en&oi=ao",
   },
 ];
 // Some icons from https://icons8.com/icons

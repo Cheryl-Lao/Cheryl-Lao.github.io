@@ -8,34 +8,19 @@ const PersonalInfo = () => {
       info: [
         {
           id: 1,
-          name: "Birthday",
-          content: "01.07.1990",
-        },
-        {
-          id: 2,
-          name: "Age",
-          content: "32",
-        },
-        {
-          id: 3,
-          name: "Address",
-          content: "Ave 11, New York, USA",
-        },
-        {
-          id: 4,
           name: "Email",
           content: (
             <>
-              <a href="mailto:tokyo@gmail.com">tokyo@gmail.com</a>
+              <a href="mailto:cheryl.lao@outlook.com">cheryl.lao[at]outlook.com</a>
             </>
           ),
         },
         {
-          id: 5,
-          name: "Phone",
+          id: 2,
+          name: "Resume",
           content: (
             <>
-              <a href="tel:+77 022 177 05 05">+77 022 177 05 05</a>
+              <a href="assets/documents/Cheryl_Lao_SWE_Resume.pdf">Click here!</a>
             </>
           ),
         },
@@ -47,29 +32,23 @@ const PersonalInfo = () => {
       info: [
         {
           id: 1,
-          name: "Nationality",
-          content: "USA",
+          name: "Linkedin",
+          content: (
+            <>
+              <a href="https://www.linkedin.com/in/cheryllao/">linkedin.com/in/cheryllao/</a>
+            </>
+          ),
         },
         {
           id: 2,
-          name: "Study",
-          content: "Univercity of Texas",
+          name: "Github",
+          content: (
+            <>
+              <a href="https://github.com/Cheryl-Lao">github.com/Cheryl-Lao</a>
+            </>
+          ),
         },
-        {
-          id: 3,
-          name: "Degree",
-          content: "Master",
-        },
-        {
-          id: 4,
-          name: "Interest",
-          content: "Playing Football",
-        },
-        {
-          id: 5,
-          name: "Freelance",
-          content: "Available",
-        },
+
       ],
     },
   ];

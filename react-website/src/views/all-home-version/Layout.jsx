@@ -26,9 +26,21 @@ const Layout = () => {
       <div className="leftpart">
         <div className="leftpart_inner">
           <div className="logo">
-            <Link className="navbar-brand" to="/">
-              <img src="/assets/img/logo/dark.png" alt="brand" />
-            </Link>
+          <Link 
+            to="/" 
+            className="navbar-brand"
+            style={{ textDecoration: "none" }} // Ensure no underline
+          >
+            {/* <img src="/assets/img/logo/dark.png" alt="brand" /> */}
+            <h3 
+              style={{ 
+                fontWeight: 800, 
+                fontFamily: "Montserrat, sans-serif" 
+              }}
+            >
+              Cheryl's Portfolio
+            </h3>
+          </Link>
           </div>
 
           <div className="menu" >

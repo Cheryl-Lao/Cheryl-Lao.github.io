@@ -25,31 +25,33 @@ const AboutMain = () => {
           {/* End title */}
 
           <Intro />
+          
           <div className="tokyo_tm_short_info">
             <PersonalInfo />
           </div>
-          {/* End personal info */}
-
+          {/*
           <div className="tokyo_tm_button" data-position="left">
           <a href="assets/img/cv.pdf" download>
               <span>Download CV</span>
             </a>
           </div>
+          */}
+
         </div>
       </div>
       {/* End .container */}
 
+      {/* 
       <div className="tokyo_tm_progressbox">
         <div className="container">
           <div className="in">
             <Skills />
           </div>
-          {/* End in */}
         </div>
-        {/* End .container */}
       </div>
-      {/* End tokyo_tm_progressbox */}
+       */}
 
+      {/* 
       <div className="tokyo_tm_skillbox">
         <div className="container">
           <div className="in">
@@ -57,7 +59,7 @@ const AboutMain = () => {
           </div>
         </div>
       </div>
-      {/* End .tokyo_tm_skillbox */}
+      End .tokyo_tm_skillbox */}
 
       <div className="tokyo_tm_resumebox">
         <div className="container">
