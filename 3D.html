@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Earth — Cheryl Lao</title>
+    <meta name="description" content="Interactive 3D Earth">
+    <link href="images/reza.jpg" rel="shortcut icon">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; overflow: hidden; background: #020208; }
+        canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+        #back {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 10;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            font-size: 0.9rem;
+        }
+        #back a {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        #back a:hover { color: #fff; }
+        #auto-rotate-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 10;
+            cursor: pointer;
+            padding: 0.45rem 0.85rem;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85rem;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            transition: background 0.2s, color 0.2s;
+        }
+        #auto-rotate-toggle:hover {
+            background: rgba(255, 255, 255, 0.14);
+            color: #fff;
+        }
+        #pin-popup {
+            display: none;
+            position: fixed;
+            z-index: 20;
+            min-width: 220px;
+            max-width: min(90vw, 320px);
+            padding: 0.75rem 1rem;
+            background: rgba(12, 14, 28, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: #e8e8f0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            font-size: 0.875rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+            pointer-events: auto;
+        }
+        #pin-popup.visible { display: block; }
+        #pin-popup .coords {
+            margin-bottom: 0.65rem;
+            line-height: 1.45;
+            font-variant-numeric: tabular-nums;
+        }
+        #pin-popup .coords strong { color: #a8c8ff; font-weight: 600; }
+        #pin-popup .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+        #pin-popup button {
+            cursor: pointer;
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 80, 100, 0.25);
+            color: #ffb8c4;
+            font-size: 0.8rem;
+            font-family: inherit;
+        }
+        #pin-popup button:hover { background: rgba(255, 80, 100, 0.4); }
+        #pin-popup button.secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.85);
+        }
+        #pin-popup button.secondary:hover { background: rgba(255, 255, 255, 0.14); }
+    </style>
+</head>
+<body>
+    <p id="back"><a href="index.html">← Back</a></p>
+    <button type="button" id="auto-rotate-toggle" aria-pressed="true" title="Pause or resume automatic spin">Pause</button>
+    <div id="pin-popup" role="dialog" aria-label="Pin location">
+        <div class="coords" id="pin-popup-coords"></div>
+        <div class="actions">
+            <button type="button" id="pin-popup-delete">Delete pin</button>
+            <button type="button" class="secondary" id="pin-popup-close">Close</button>
+        </div>
+    </div>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.170.0/build/three.module.js"
+        }
+    }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 2.8;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x020208, 1);
+        document.body.appendChild(renderer.domElement);
+
+        const ambient = new THREE.AmbientLight(0x404060, 0.35);
+        scene.add(ambient);
+        const sun = new THREE.DirectionalLight(0xffffff, 2.2);
+        sun.position.set(5, 2, 5);
+        scene.add(sun);
+
+        const geometry = new THREE.SphereGeometry(1, 64, 64);
+        const loader = new THREE.TextureLoader();
+        const earthMap = 'https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg';
+        const texture = loader.load(earthMap);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        const material = new THREE.MeshStandardMaterial({
+            map: texture,
+            roughness: 0.65,
+            metalness: 0.05,
+        });
+        const earth = new THREE.Mesh(geometry, material);
+        scene.add(earth);
+
+        const starGeo = new THREE.BufferGeometry();
+        const starCount = 1200;
+        const positions = new Float32Array(starCount * 3);
+        for (let i = 0; i < starCount; i++) {
+            const r = 8 + Math.random() * 12;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+            positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+            positions[i * 3 + 2] = r * Math.cos(phi);
+        }
+        starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const stars = new THREE.Points(
+            starGeo,
+            new THREE.PointsMaterial({ color: 0xaaccff, size: 0.035, sizeAttenuation: true })
+        );
+        scene.add(stars);
+
+        const raycaster = new THREE.Raycaster();
+        const ndc = new THREE.Vector2();
+
+        function localNormalToGps(localUnit) {
+            const x = localUnit.x;
+            const y = localUnit.y;
+            const z = localUnit.z;
+            const latDeg = Math.asin(Math.max(-1, Math.min(1, y))) * (180 / Math.PI);
+            const lonDeg = Math.atan2(x, z) * (180 / Math.PI);
+            return { latDeg, lonDeg };
+        }
+
+        function formatGps(latDeg, lonDeg) {
+            const latDir = latDeg >= 0 ? 'N' : 'S';
+            const lonDir = lonDeg >= 0 ? 'E' : 'W';
+            return {
+                line1: `${Math.abs(latDeg).toFixed(4)}° ${latDir}, ${Math.abs(lonDeg).toFixed(4)}° ${lonDir}`,
+                line2: `Decimal: ${latDeg.toFixed(5)}, ${lonDeg.toFixed(5)}`,
+            };
+        }
+
+        function createPinGroup(latDeg, lonDeg) {
+            const root = new THREE.Group();
+            root.name = 'pin';
+            root.userData.latDeg = latDeg;
+            root.userData.lonDeg = lonDeg;
+            const mat = new THREE.MeshStandardMaterial({
+                color: 0xff4466,
+                metalness: 0.35,
+                roughness: 0.45,
+                emissive: 0x000000,
+                emissiveIntensity: 0,
+            });
+            const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.006, 0.05, 8), mat);
+            stem.position.y = 0.025;
+            stem.userData.pinRoot = root;
+            const head = new THREE.Mesh(new THREE.SphereGeometry(0.019, 12, 12), mat);
+            head.position.y = 0.055;
+            head.userData.pinRoot = root;
+            root.add(stem, head);
+            return root;
+        }
+
+        function placePinOnEarth(intersect) {
+            const worldPoint = intersect.point.clone();
+            const local = earth.worldToLocal(worldPoint);
+            const localNormal = local.clone().normalize();
+            const { latDeg, lonDeg } = localNormalToGps(localNormal);
+            const pin = createPinGroup(latDeg, lonDeg);
+            const surfaceOffset = 1.018;
+            pin.position.copy(localNormal.clone().multiplyScalar(surfaceOffset));
+            pin.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), localNormal);
+            earth.add(pin);
+        }
+
+        const PIN_COLOR_DEFAULT = 0xff4466;
+        const PIN_COLOR_SELECTED = 0x44dd88;
+        const PIN_EMISSIVE_DEFAULT = 0x000000;
+        const PIN_EMISSIVE_SELECTED = 0x1a5533;
+
+        function applyPinSelectionState(pinRoot, selected) {
+            if (!pinRoot) return;
+            pinRoot.traverse((child) => {
+                if (!child.isMesh || child.userData.pinRoot !== pinRoot) return;
+                const m = child.material;
+                m.color.setHex(selected ? PIN_COLOR_SELECTED : PIN_COLOR_DEFAULT);
+                m.emissive.setHex(selected ? PIN_EMISSIVE_SELECTED : PIN_EMISSIVE_DEFAULT);
+                m.emissiveIntensity = selected ? 0.45 : 0;
+            });
+        }
+
+        const canvas = renderer.domElement;
+        const pinPopup = document.getElementById('pin-popup');
+        const pinPopupCoords = document.getElementById('pin-popup-coords');
+        const pinPopupDelete = document.getElementById('pin-popup-delete');
+        const pinPopupClose = document.getElementById('pin-popup-close');
+        const autoRotateToggle = document.getElementById('auto-rotate-toggle');
+        let openPinRoot = null;
+        let autoRotateEnabled = true;
+
+        function syncAutoRotateButton() {
+            autoRotateToggle.textContent = autoRotateEnabled ? 'Static Earth' : 'Auto-rotate';
+            autoRotateToggle.setAttribute('aria-pressed', autoRotateEnabled ? 'true' : 'false');
+            autoRotateToggle.title = autoRotateEnabled
+                ? 'Pause automatic spin'
+                : 'Resume automatic spin';
+        }
+
+        autoRotateToggle.addEventListener('click', () => {
+            autoRotateEnabled = !autoRotateEnabled;
+            syncAutoRotateButton();
+        });
+
+        function hidePinPopup() {
+            if (openPinRoot) {
+                applyPinSelectionState(openPinRoot, false);
+            }
+            pinPopup.classList.remove('visible');
+            openPinRoot = null;
+        }
+
+        function showPinPopup(pinRoot, clientX, clientY) {
+            if (openPinRoot && openPinRoot !== pinRoot) {
+                applyPinSelectionState(openPinRoot, false);
+            }
+            openPinRoot = pinRoot;
+            applyPinSelectionState(pinRoot, true);
+            const latDeg = pinRoot.userData.latDeg;
+            const lonDeg = pinRoot.userData.lonDeg;
+            const fmt = formatGps(latDeg, lonDeg);
+            pinPopupCoords.innerHTML =
+                `<div><strong>GPS</strong> (WGS‑84, approximate)</div>` +
+                `<div>${fmt.line1}</div>` +
+                `<div style="opacity:0.85;font-size:0.8rem;margin-top:0.25rem">${fmt.line2}</div>`;
+            pinPopup.classList.add('visible');
+            const pad = 12;
+            const pw = pinPopup.offsetWidth;
+            const ph = pinPopup.offsetHeight;
+            let left = clientX + pad;
+            let top = clientY + pad;
+            if (left + pw > window.innerWidth - 8) left = window.innerWidth - pw - 8;
+            if (top + ph > window.innerHeight - 8) top = window.innerHeight - ph - 8;
+            if (left < 8) left = 8;
+            if (top < 8) top = 8;
+            pinPopup.style.left = `${left}px`;
+            pinPopup.style.top = `${top}px`;
+        }
+
+        pinPopupDelete.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (openPinRoot) {
+                earth.remove(openPinRoot);
+            }
+            hidePinPopup();
+        });
+        pinPopupClose.addEventListener('click', (e) => {
+            e.stopPropagation();
+            hidePinPopup();
+        });
+        pinPopup.addEventListener('pointerdown', (e) => e.stopPropagation());
+
+        document.addEventListener('pointerdown', (e) => {
+            if (!pinPopup.classList.contains('visible')) return;
+            if (pinPopup.contains(e.target)) return;
+            if (e.target.closest('#auto-rotate-toggle')) return;
+            hidePinPopup();
+        });
+
+        let pointerDown = false;
+        let startX = 0;
+        let startY = 0;
+        let lastX = 0;
+        let lastY = 0;
+        let isRotatingGesture = false;
+        const clickMoveThresholdPx = 10;
+        const dragSensitivity = 0.005;
+        const minTilt = -Math.PI * 0.49;
+        const maxTilt = Math.PI * 0.49;
+
+        const minCamZ = 1.28;
+        const maxCamZ = 10;
+        const zoomWheelScale = 0.002;
+
+        canvas.addEventListener(
+            'wheel',
+            (e) => {
+                e.preventDefault();
+                let dy = e.deltaY;
+                if (e.deltaMode === 1) dy *= 16;
+                else if (e.deltaMode === 2) dy *= 80;
+                camera.position.z += dy * zoomWheelScale;
+                camera.position.z = THREE.MathUtils.clamp(camera.position.z, minCamZ, maxCamZ);
+            },
+            { passive: false }
+        );
+
+        function updateNdc(clientX, clientY) {
+            const rect = canvas.getBoundingClientRect();
+            ndc.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+            ndc.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+        }
+
+        function pickEarthOrPin(clientX, clientY) {
+            updateNdc(clientX, clientY);
+            raycaster.setFromCamera(ndc, camera);
+            const hits = raycaster.intersectObject(earth, true);
+            return hits.length ? hits[0] : null;
+        }
+
+        function onCanvasClick(clientX, clientY) {
+            const hit = pickEarthOrPin(clientX, clientY);
+            if (!hit) return;
+            const pinRoot = hit.object.userData.pinRoot;
+            if (pinRoot) {
+                showPinPopup(pinRoot, clientX, clientY);
+                return;
+            }
+            placePinOnEarth(hit);
+        }
+
+        canvas.addEventListener('pointerdown', (e) => {
+            if (e.button !== 0) return;
+            pointerDown = true;
+            isRotatingGesture = false;
+            startX = lastX = e.clientX;
+            startY = lastY = e.clientY;
+            canvas.style.cursor = 'grabbing';
+            canvas.setPointerCapture(e.pointerId);
+            e.preventDefault();
+        });
+
+        canvas.addEventListener('pointermove', (e) => {
+            if (!pointerDown) return;
+            const dx0 = e.clientX - startX;
+            const dy0 = e.clientY - startY;
+            if (!isRotatingGesture && (dx0 * dx0 + dy0 * dy0) > clickMoveThresholdPx * clickMoveThresholdPx) {
+                isRotatingGesture = true;
+                lastX = e.clientX;
+                lastY = e.clientY;
+            }
+            if (!isRotatingGesture) return;
+            const dx = e.clientX - lastX;
+            const dy = e.clientY - lastY;
+            lastX = e.clientX;
+            lastY = e.clientY;
+            earth.rotation.y += dx * dragSensitivity;
+            earth.rotation.x += dy * dragSensitivity;
+            earth.rotation.x = Math.max(minTilt, Math.min(maxTilt, earth.rotation.x));
+            e.preventDefault();
+        });
+
+        function endPointer(e) {
+            if (!pointerDown) return;
+            const wasTap = !isRotatingGesture;
+            pointerDown = false;
+            isRotatingGesture = false;
+            canvas.style.cursor = 'grab';
+            try {
+                canvas.releasePointerCapture(e.pointerId);
+            } catch (_) {
+                /* released already */
+            }
+            if (wasTap) {
+                onCanvasClick(e.clientX, e.clientY);
+            }
+        }
+        canvas.addEventListener('pointerup', endPointer);
+        canvas.addEventListener('pointercancel', endPointer);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const popupOpen = pinPopup.classList.contains('visible');
+            if (!pointerDown && !popupOpen && autoRotateEnabled) {
+                earth.rotation.y += 0.0018;
+            }
+            stars.rotation.y += 0.00015;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
