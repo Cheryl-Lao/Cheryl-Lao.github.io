@@ -43,6 +43,29 @@
             background: rgba(255, 255, 255, 0.14);
             color: #fff;
         }
+        #xr-toggle {
+            position: fixed;
+            top: 3.4rem;
+            right: 1rem;
+            z-index: 10;
+            cursor: pointer;
+            padding: 0.45rem 0.85rem;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85rem;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            transition: background 0.2s, color 0.2s;
+        }
+        #xr-toggle:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.14);
+            color: #fff;
+        }
+        #xr-toggle:disabled {
+            cursor: not-allowed;
+            opacity: 0.45;
+        }
         #pin-popup {
             display: none;
             position: fixed;
@@ -88,6 +111,7 @@
 <body>
     <p id="back"><a href="index.html">← Back</a></p>
     <button type="button" id="auto-rotate-toggle" aria-pressed="true" title="Pause or resume automatic spin">Pause</button>
+    <button type="button" id="xr-toggle" aria-pressed="false" title="Enter or exit immersive VR">Enter VR</button>
     <div id="pin-popup" role="dialog" aria-label="Pin location">
         <div class="coords" id="pin-popup-coords"></div>
         <div class="actions">
@@ -114,7 +138,11 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setClearColor(0x020208, 1);
+        renderer.xr.enabled = true;
         document.body.appendChild(renderer.domElement);
+
+        const contentRoot = new THREE.Group();
+        scene.add(contentRoot);
 
         const ambient = new THREE.AmbientLight(0x404060, 0.35);
         scene.add(ambient);
@@ -133,7 +161,7 @@
             metalness: 0.05,
         });
         const earth = new THREE.Mesh(geometry, material);
-        scene.add(earth);
+        contentRoot.add(earth);
 
         const starGeo = new THREE.BufferGeometry();
         const starCount = 1200;
@@ -151,7 +179,7 @@
             starGeo,
             new THREE.PointsMaterial({ color: 0xaaccff, size: 0.035, sizeAttenuation: true })
         );
-        scene.add(stars);
+        contentRoot.add(stars);
 
         const raycaster = new THREE.Raycaster();
         const ndc = new THREE.Vector2();
@@ -230,6 +258,7 @@
         const pinPopupDelete = document.getElementById('pin-popup-delete');
         const pinPopupClose = document.getElementById('pin-popup-close');
         const autoRotateToggle = document.getElementById('auto-rotate-toggle');
+        const xrToggle = document.getElementById('xr-toggle');
         let openPinRoot = null;
         let autoRotateEnabled = true;
 
@@ -245,6 +274,58 @@
             autoRotateEnabled = !autoRotateEnabled;
             syncAutoRotateButton();
         });
+
+        function syncXrButton() {
+            const presenting = renderer.xr.isPresenting;
+            xrToggle.textContent = presenting ? 'Exit VR' : 'Enter VR';
+            xrToggle.setAttribute('aria-pressed', presenting ? 'true' : 'false');
+            xrToggle.title = presenting
+                ? 'Exit immersive VR session'
+                : 'Enter immersive VR (headset via WebXR)';
+        }
+
+        renderer.xr.addEventListener('sessionstart', () => {
+            contentRoot.position.set(0, 1.5, -2.8);
+            syncXrButton();
+        });
+
+        renderer.xr.addEventListener('sessionend', () => {
+            contentRoot.position.set(0, 0, 0);
+            syncXrButton();
+        });
+
+        xrToggle.addEventListener('click', async () => {
+            if (!navigator.xr) return;
+            if (renderer.xr.isPresenting) {
+                const sess = renderer.xr.getSession();
+                if (sess) await sess.end();
+                return;
+            }
+            try {
+                renderer.xr.setReferenceSpaceType('local-floor');
+                const session = await navigator.xr.requestSession('immersive-vr', {
+                    optionalFeatures: ['local-floor', 'bounded-floor'],
+                });
+                await renderer.xr.setSession(session);
+            } catch (err) {
+                console.error('WebXR session failed:', err);
+                alert(
+                    `Could not start VR: ${err?.message ?? err}\n` +
+                        'Try Chrome or Edge, HTTPS or localhost, with your headset linked.'
+                );
+            }
+            syncXrButton();
+        });
+
+        if (navigator.xr) {
+            navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
+                xrToggle.disabled = !supported;
+                xrToggle.title = supported ? xrToggle.title : 'Immersive VR not available in this browser or device.';
+            });
+        } else {
+            xrToggle.disabled = true;
+            xrToggle.title = 'WebXR is not supported in this browser.';
+        }
 
         function hidePinPopup() {
             if (openPinRoot) {
@@ -298,6 +379,7 @@
             if (!pinPopup.classList.contains('visible')) return;
             if (pinPopup.contains(e.target)) return;
             if (e.target.closest('#auto-rotate-toggle')) return;
+            if (e.target.closest('#xr-toggle')) return;
             hidePinPopup();
         });
 
@@ -319,6 +401,7 @@
         canvas.addEventListener(
             'wheel',
             (e) => {
+                if (renderer.xr.isPresenting) return;
                 e.preventDefault();
                 let dy = e.deltaY;
                 if (e.deltaMode === 1) dy *= 16;
@@ -402,16 +485,18 @@
         canvas.addEventListener('pointerup', endPointer);
         canvas.addEventListener('pointercancel', endPointer);
 
-        function animate() {
-            requestAnimationFrame(animate);
+        function animateLoop() {
             const popupOpen = pinPopup.classList.contains('visible');
+            const xrActive = renderer.xr.isPresenting;
             if (!pointerDown && !popupOpen && autoRotateEnabled) {
-                earth.rotation.y += 0.0018;
+                earth.rotation.y += xrActive ? 0.001 : 0.0018;
             }
             stars.rotation.y += 0.00015;
             renderer.render(scene, camera);
         }
-        animate();
+
+        renderer.setAnimationLoop(animateLoop);
+        syncXrButton();
 
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
